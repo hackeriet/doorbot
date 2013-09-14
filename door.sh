@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LOGFILE=/var/log/door.log
+
 stty -F /dev/ttyACM0 9600 cs8 cread clocal
 
 if [ ! -f /sys/class/gpio/gpio25/value ] ; then
@@ -10,18 +12,14 @@ fi
 
 while : ; do
   read l < /dev/ttyACM0
-  l=$(echo $l | sed 's/\r//g')
-  g=$(grep -H "$l" users/*)
+  l=$(echo $l | sed 's/\r//g' | sed 's/[^0-9, ]//')
+  g=$(grep -H "$l" /home/pi/users/*)
   result=$?
   if [ "$result" -eq 0 ] ; then
-    echo `date` Granted $(echo $g | cut -d: -f1) access
-    echo 1 > /sys/class/gpio/gpio25/value
-    echo get on the floor
-    sleep 2
-    echo everybody do the dinosaur
-    echo 0 > /sys/class/gpio/gpio25/value
+    echo `date` - Granted $(echo $g | cut -d: -f1) access >> $LOGFILE
+    opendoor >> $LOGFILE 
   else
-    echo "$l not recognized!"
+    echo "`date` - $l not recognized!" >> $LOGFILE
   fi
 done
 
