@@ -1,0 +1,20 @@
+Hackeriet's doorbot
+
+It's simple: we have an RFID reader hooked up to an Arduino,
+to read 125kHz cards.
+
+We have a Raspberry reading the arduino's output on TTL pins,
+and we have strike locks hooked up to a circuity board with
+relays that are on the pi's gpio pins.
+
+Now we can unlock the door with software. This software.
+
+door.sh      :  door service, waits for cards, opens doors
+opendoor.sh  : just open the door already
+opendoor     : binary to call opendoor.sh, for setuid
+rc.door      : init script
+
+You can set the opendoor binary to be a user's shell, then add ssh keys to that user's
+authorized_keys, and open the door with ssh keys.
+
+
