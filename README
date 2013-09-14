@@ -1,5 +1,14 @@
 Hackeriet's doorbot
 
+System Design Objectives:
+
+tamper and sabotage resist.
+cheaply, easily sourced and quickly interchangable parts.
+semi-decentralized. network attached.
+
+Raspberry PI's with raspberian + relays + strike locks + rfid readers
+(vastly overdimentioned, but practical and economical)
+
 It's simple: we have an RFID reader hooked up to an Arduino,
 to read 125kHz cards.
 
@@ -14,7 +23,13 @@ opendoor.sh  : just open the door already
 opendoor     : binary to call opendoor.sh, for setuid
 rc.door      : init script
 
-You can set the opendoor binary to be a user's shell, then add ssh keys to that user's
-authorized_keys, and open the door with ssh keys.
+Run door.sh to serve the door.
+Scan the card you wish to add, then
+copy the full card number from the console output 
+into /home/pi/users/$username
+
+You can set the opendoor binary to be a user's shell, 
+then add ssh keys to that user's authorized_keys, 
+and open the door with ssh keys.
 
 
