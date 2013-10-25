@@ -17,9 +17,11 @@ while : ; do
   result=$?
   if [ "$result" -eq 0 ] ; then
     echo `date` - Granted $(echo $g | cut -d: -f1) access >> $LOGFILE
+    echo Granted $(echo $g | cut -d: -f1) access | logger -t opendoor
     opendoor >> $LOGFILE 
   else
     echo "`date` - $l not recognized!" >> $LOGFILE
+    echo "$l not recognized!" | logger -t opendoor
   fi
 done
 
