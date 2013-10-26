@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Run open-ze-lock under sudo.
+#
+# Used as a shell for the humla user.
+sudo /usr/local/bin/open-ze-lock
