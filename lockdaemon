@@ -1,27 +1,28 @@
 #!/bin/bash
+#
+# Main loop that reads input from the RFID reader
+# and asks for the lock to be opened if the correct
+# token is presented.
+#
 
-LOGFILE=/var/log/door.log
-
-stty -F /dev/ttyACM0 9600 cs8 cread clocal
+RFID_READER=/dev/ttyACM0
+stty -F $RFID_READER 9600 cs8 cread clocal
 
 if [ ! -f /sys/class/gpio/gpio25/value ] ; then
   echo 25 > /sys/class/gpio/export
   echo out > /sys/class/gpio/gpio25/direction
 fi
 
-
 while : ; do
-  read l < /dev/ttyACM0
+  read l < $RFID_READER
   l=$(echo $l | sed 's/\r//g' | sed 's/[^0-9, ]//')
   g=$(grep -H "$l" /home/pi/users/*)
   result=$?
   if [ "$result" -eq 0 ] ; then
-    echo `date` - Granted $(echo $g | cut -d: -f1) access >> $LOGFILE
-    echo Granted $(echo $g | cut -d: -f1) access | logger -t opendoor
-    opendoor >> $LOGFILE 
+    echo Granted $(echo $g | cut -d: -f1) access | logger -t lockdaemon
+    sudo opendoor | logger -t lockdaemon
   else
-    echo "`date` - $l not recognized!" >> $LOGFILE
-    echo "$l not recognized!" | logger -t opendoor
+    echo "$l not recognized!" | logger -t lockdaemon
   fi
 done
 

@@ -1,4 +1,12 @@
-#!/bin/bash
+#!/bin/bash -x
+#
+# Set the GPIO pins high/low so that the relay is
+# triggered and the lock opens.
+
+if [ "$UID" != "0" ]; then
+    echo "I need to be run under sudo for now. Aborting." 
+    exit 1;
+fi
 
 DOOR_STATE_FILE=/sys/class/gpio/gpio25/value
 
@@ -9,11 +17,10 @@ if [ ! -f $DOOR_STATE_FILE ] ; then
   echo out > /sys/class/gpio/gpio25/direction
 fi
 
-
-echo Granted $(echo $g | cut -d: -f1) access
 echo Granted $(echo $g | cut -d: -f1) access | logger -t opendoor
 echo 1 > /sys/class/gpio/gpio25/value
-echo get on the floor
+#echo get on the floor
 sleep 2
-echo everybody do the dinosaur
+#echo everybody do the dinosaur
 echo 0 > /sys/class/gpio/gpio25/value
+# 
