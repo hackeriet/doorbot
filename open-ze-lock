@@ -17,7 +17,7 @@ if [ ! -f $DOOR_STATE_FILE ] ; then
   echo out > /sys/class/gpio/gpio25/direction
 fi
 
-echo Granted $(echo $g | cut -d: -f1) access | logger -t opendoor
+echo Granted $(echo $g | cut -d: -f1) access | logger -t open-ze-lock
 echo 1 > /sys/class/gpio/gpio25/value
 #echo get on the floor
 sleep 2

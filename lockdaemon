@@ -20,7 +20,7 @@ while : ; do
   result=$?
   if [ "$result" -eq 0 ] ; then
     echo Granted $(echo $g | cut -d: -f1) access | logger -t lockdaemon
-    sudo opendoor | logger -t lockdaemon
+    sudo /usr/local/bin/open-ze-lock | logger -t lockdaemon
   else
     echo "$l not recognized!" | logger -t lockdaemon
   fi

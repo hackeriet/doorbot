@@ -1,4 +1,5 @@
 Hackeriet's doorbot
+===================
 
 System Design Objectives:
 
@@ -18,10 +19,12 @@ relays that are on the pi's gpio pins.
 
 Now we can unlock the door with software. This software.
 
-door.sh      :  door service, waits for cards, opens doors
-opendoor.sh  : just open the door already
-opendoor     : binary to call opendoor.sh, for setuid
-rc.door      : init script
+lockservice	: door service, waits for cards, opens doors
+open-ze-door	: just open the door already
+rc.lockservice  : init script
+
+run "sudo make install" to put things where they belong, usually
+/usr/local/bin/ and /etc/init.d/
 
 Run door.sh to serve the door.
 Scan the card you wish to add, then
