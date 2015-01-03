@@ -20,7 +20,14 @@ fi
 echo Granted $(echo $g | cut -d: -f1) access | logger -t open-ze-lock
 echo 1 > /sys/class/gpio/gpio25/value
 #echo get on the floor
-sleep 2
+## running of this script takes more than 2 secs. to complete 
+sleep 3
 #echo everybody do the dinosaur
-echo 0 > /sys/class/gpio/gpio25/value
+if [ `cat /sys/class/gpio/gpio25/value` -eq "1" ]; then 
+	echo 0 > /sys/class/gpio/gpio25/value
+else
+	echo 1 > /sys/class/gpio/gpio25/value
+	sleep 3
+	echo 0 > /sys/class/gpio/gpio25/value
+fi
 # 
